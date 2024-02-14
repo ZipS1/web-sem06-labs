@@ -8,6 +8,9 @@ namespace lab03
 {
     internal class Program
     {
+        /*
+         Сформировать одномерный массив как столбец матрицы, содержащий минимальный элемент на побочной диагонали.
+         */
         static void Main(string[] args)
         {
             GetMatrixSize(args, out int x, out int y);
@@ -75,6 +78,11 @@ namespace lab03
             Console.WriteLine(array);
         }
 
+        /// <summary>
+        /// Формирует одномерный массив как столбец матрицы, содержащий минимальный элемент на побочной диагонали.
+        /// </summary>
+        /// <param name="matrix">Матрица</param>
+        /// <param name="column">Сформированный одномерный массив</param>
         private static void FindMinElementColumn(List<List<int>> matrix, out List<int> column)
         {
             column = new List<int>();
