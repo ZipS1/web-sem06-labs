@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Program</name>
+    </assembly>
+    <members>
+        <member name="T:lab01_2.Figure">
+            <summary>
+            Типы геометрических фигур
+            </summary>
+        </member>
+        <member name="T:lab01_2.Fdata">
+            <summary>
+            Данные о геометрической фигуре
+            </summary>
+        </member>
+        <member name="F:lab01_2.Fdata.x0">
+            <summary>
+            Координаты центра тяжести
+            </summary>
+        </member>
+        <member name="F:lab01_2.Fdata.y0">
+            <summary>
+            Координаты центра тяжести
+            </summary>
+        </member>
+        <member name="F:lab01_2.Fdata.color">
+            <summary>
+            Цвет фигуры
+            </summary>
+        </member>
+        <member name="F:lab01_2.Fdata.type">
+            <summary>
+            Тип фигуры
+            </summary>
+        </member>
+    </members>
+</doc>
