@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace lab03
 {
@@ -14,10 +15,11 @@ namespace lab03
         static void Main(string[] args)
         {
             GetMatrixSize(args, out int x, out int y);
+            List<List<int>> matrix = GenerateMatrix(x, y);
+            OutputMatrix(matrix);
 
-            List<List<int>> matrix = InputMatrix(x, y);
             FindMinElementColumn(matrix, out List<int> column);
-
+            OutputArray(column);
             Console.ReadKey();
         }
 
@@ -30,44 +32,33 @@ namespace lab03
             y = int.Parse(args[1]);
         }
 
-        private static List<List<int>> InputMatrix(int x, int y)
+        private static List<List<int>> GenerateMatrix(int x, int y)
         {
+            Random random = new Random();
             List<List<int>> matrix = new List<List<int>>();
 
-            Console.WriteLine($"Input matrix of {y} rows and {x} columns");
             for (int i = 0; i < y; i++)
             {
-                Console.Write($"Row {i+1}: ");
-                try
-                {
-                    matrix.Add(InputRow(x));
-                } catch (Exception e)
-                {
-                    Console.WriteLine(e.ToString());
-                }
+                List<int> row = new List<int>();
+                for (int j = 0; j < x; j++)
+                    row.Add(random.Next(-99, 99));
+                matrix.Add(row);
             }
             return matrix;
         }
 
-        private static List<int> InputRow(int x)
+        private static void OutputMatrix(List<List<int>> matrix)
         {
-            List<int> row = new List<int>();
-            string input = Console.ReadLine();
-            string[] splittedInput = input.Split(' ');
-            if (splittedInput.Length != x)
-                throw new ArgumentOutOfRangeException($"Elements amount not equal to {x}");
-
-            foreach (string element in splittedInput)
+            Console.WriteLine("--- Matrix ---");
+            foreach (var row in matrix)
             {
-                try
+                foreach (var el in row)
                 {
-                    row.Add(int.Parse(element));
-                } catch (Exception e)
-                {
-                    Console.WriteLine(e.ToString());
+                    Console.Write($"{el} ");
                 }
+                Console.WriteLine();
             }
-            return row;
+            Console.WriteLine();
         }
 
         private static void OutputArray(List<int> array)
@@ -75,7 +66,7 @@ namespace lab03
             Console.WriteLine("--- Array ---");
             foreach (int el in array)
                 Console.Write($"{el} ");
-            Console.WriteLine(array);
+            Console.WriteLine();
         }
 
         /// <summary>
@@ -86,6 +77,29 @@ namespace lab03
         private static void FindMinElementColumn(List<List<int>> matrix, out List<int> column)
         {
             column = new List<int>();
+
+            List<int> sideDiagonal = GetSideDiagonal(matrix);
+            int columnIndex = matrix[0].Count - sideDiagonal.IndexOf(sideDiagonal.Min()) - 1;
+            column = matrix.Select(x => x[columnIndex]).ToList();
+        }
+
+        /// <summary>
+        /// Returns side diagonal starting from the top right element
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <returns>Side diagonal</returns>
+        private static List<int> GetSideDiagonal(List<List<int>> matrix)
+        {
+            List<int> sideDiagonal = new List<int>();
+            for (int i = 0; i < matrix.Count; i++)
+            {
+                int rowIndex = matrix[0].Count - i - 1;
+                if (rowIndex < 0)
+                    break;
+
+                sideDiagonal.Add(matrix[i][rowIndex]);
+            }
+            return sideDiagonal;
         }
     }
 }
