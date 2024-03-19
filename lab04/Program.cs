@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace lab04
 {
-
     public enum Gender
     {
         Male,
@@ -24,13 +23,10 @@ namespace lab04
         public Gender Gender { get; private set; }
         public uint Salary { get; private set; }
 
-        public Person(string name, bool isMale, uint salary)
+        public Person(string name, Gender gender, uint salary)
         {
             Name = name;
-
-            // Имена параметров конструктора должны совпадать с именами полей структуры.
-            // Так можно? (Не нужно делать валидацию данных)
-            Gender = isMale ? Gender.Male : Gender.Female;
+            Gender = gender;
             Salary = salary;
         }
 
@@ -41,12 +37,12 @@ namespace lab04
 
             double maleAverage = persons
                 .Where(x => x.Gender == Gender.Male)
-                .DefaultIfEmpty(new Person("Jack", true, 0)) // uint collection cant use Average, also cant use parameterless constructors
+                .DefaultIfEmpty(new Person("Jack", Gender.Male, 0)) // uint collection cant use Average, also cant use parameterless constructors
                 .Average(x => x.Salary);
 
             double femaleAverage = persons.
                 Where(x => x.Gender == Gender.Female)
-                .DefaultIfEmpty(new Person("Jack", true, 0))
+                .DefaultIfEmpty(new Person("Jack", Gender.Male, 0))
                 .Average(x => x.Salary);
             return Tuple.Create(maleAverage, femaleAverage);
         }
@@ -126,7 +122,7 @@ namespace lab04
             if (uint.TryParse(Console.ReadLine(), out uint salary) == false)
                 return null;
 
-            return new Person(name, gender == Gender.Male, salary);
+            return new Person(name, gender.Value, salary);
         }
 
         private Gender? ValidateGenderInput(string input)
